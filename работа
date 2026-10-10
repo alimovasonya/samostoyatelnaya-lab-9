@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_SIZE 100
+int main(void)
+{
+    int rows, cols;
+    int a[MAX_SIZE][MAX_SIZE];
+    long long sum;
+    long long min_sum;
+    int min_index = 0;
+    printf("Enter number of rows and columns: ");
+    if (scanf("%d %d", &rows, &cols) != 2) {
+        fprintf(stderr, "Error: invalid input of matrix dimensions.\n");
+        return 1;
+    }
+    if (rows < 1 || rows > MAX_SIZE ||
+        cols < 1 || cols > MAX_SIZE) {
+        fprintf(stderr,
+                "Error: dimensions must be between 1 and %d.\n",
+                MAX_SIZE);
+        return 1;
+    }
+    printf("Enter matrix elements:\n");
+    for (int row = 0; row < rows; row++) {
+        for (int col = 0; col < cols; col++) {
+            if (scanf("%d", &a[row][col]) != 1) {
+                fprintf(stderr,
+                        "Error: invalid matrix element.\n");
+                return 1;
+            }
+        }
+    }
+    printf("\nMatrix:\n");
+    for (int row = 0; row < rows; row++) {
+        for (int col = 0; col < cols; col++) {
+            printf("%d", a[row][col]);
+            if (col < cols - 1) {
+                printf("\t");
+            }
+        }
+        printf("\n");
+    }
+    printf("\nColumn sums:\n");
+    for (int col = 0; col < cols; col++) {
+        sum = 0;
+        for (int row = 0; row < rows; row++) {
+            sum += a[row][col];
+        }
+        printf("Column %d: %lld\n", col, sum);
+    }
+    min_sum = 0;
+    for (int col = 0; col < cols; col++) {
+        min_sum += a[0][col];
+    }
+    min_index = 0;
+    for (int row = 1; row < rows; row++) {
+        sum = 0;
+        for (int col = 0; col < cols; col++) {
+            sum += a[row][col];
+        }
+        if (sum < min_sum) {
+            min_sum = sum;
+            min_index = row;
+        }
+    }
+    printf("\nMinimum row index: %d\n", min_index);
+    printf("Minimum row sum: %lld\n", min_sum);
+    return 0;
+}
